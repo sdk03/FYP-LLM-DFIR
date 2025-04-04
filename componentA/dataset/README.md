@@ -1,61 +1,41 @@
 # Dataset Documentation
 
-This directory contains the datasets and utility scripts used to simulate and prepare forensic artifacts for Component A of the project *"Leveraging Large Language Models for Automated Digital Forensic Analysis."*
+This directory contains the finalized dataset used in **Component A** of the project:  
+**"Leveraging Large Language Models for Automated Digital Forensic Analysis."**
 
 ---
 
-## 1. Overview
+## Overview
 
-The dataset is constructed to emulate SMS data as typically extracted from Android mobile devices during digital forensic investigations. It is used primarily for evaluating the performance of an Autopsy-integrated plugin for entity-based message categorization via Large Language Models (LLMs).
+The dataset has been fully processed and is provided in the form of a SQLite database file (`mmssms.db`). This database emulates the structure of an Android SMS storage artifact and is intended for direct ingestion into digital forensic tools such as **Autopsy**.
 
----
-
-## 2. Data Sources
-
-SMS messages were aggregated from three publicly available corpora:
-
-- **UCI SMS Spam Collection** 
-- **NUS Singapore SMS Corpus**
-- **Indian SMS Corpus**
-
-These sources were selected to introduce linguistic and regional diversity, reflecting realistic forensic challenges.
+No further preprocessing or transformation is required.
 
 ---
 
-## 3. Dataset Construction Process
+## Contents
 
-The construction pipeline consists of the following stages:
-
-| Step | Description |
-|------|-------------|
-| **1. Sampling** | A representative subset of messages was randomly selected from each dataset using the script `samplePicker.py`. |
-| **2. SQL Conversion** | Sampled messages were converted into SQL `INSERT` queries using `sqlGen.py`. |
-| **3. SQLite Injection** | The resulting queries were executed into a SQLite database named `mmssms.db`, which mimics the schema used by Android SMS storage (compatible with Autopsy). |
-
-The resulting database simulates a forensic SMS artifact and can be directly ingested into digital forensic tools.
+| File              | Description |
+|------------------|-------------|
+| `mmssms.db`       | A SQLite database containing SMS messages formatted in the Android `mmssms.db` schema. Compatible with Autopsy for forensic analysis and plugin evaluation. |
+| `labeled_sms.csv` | Ground truth annotations for 100 selected SMS messages, labeled across 16 forensic-relevant entity categories for evaluation purposes. |
 
 ---
 
-## 4. Ground Truth Annotations
+## Usage
 
-A subset of 100 messages from the emulated database was manually annotated to serve as ground truth for evaluation. Each message was labeled with one or more forensic-relevant entity types (e.g., `Date`, `Currency`, `Name`, `Phone Number`, etc.).
+To use the dataset:
 
-These labels are stored in `labeled_sms.csv`, which supports evaluation of classification metrics including Precision, Recall, F1 Score, and MCC.
-
----
-
-## 5. Data Processing
-
-No additional preprocessing (e.g., text normalization or cleaning) was performed.
+1. Import `mmssms.db` as part of your digital forensic case in Autopsy.
+2. Use the provided Autopsy plugin to categorize messages.
 
 ---
 
-## 6. Directory Structure
+## Notes
 
-```plaintext
-dataset/
-├── mmssms.db              # SQLite database simulating Android SMS storage
-├── scripts/
-│   ├── samplePicker.py    # Script to sample records from the source corpora
-│   └── sqlGen.py          # Script to convert sampled messages into SQL insert
-└── README.md              # Dataset documentation (this file)
+- The dataset is fully anonymized and compiled from public sources for academic use.
+- No raw or intermediate files are included, as the processed SQLite file is ready for immediate use.
+
+---
+
+**Return to main project repository:** [../README.md](../README.md)
